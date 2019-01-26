@@ -41,12 +41,11 @@ def login():
 @newrelic.agent.function_trace()
 def get_workout_data():
     d = login()
-    today = datetime.datetime.today()
+    today = datetime.date.today()
     d.get(WORKOUTS % (today.month, today.year))
     pre = d.find_element_by_tag_name("pre").text
     data = json.loads(pre)
     wd = data['workout_data']['workouts']
-    today = datetime.date.today()
     if today not in wd:
         return None
     else:
