@@ -22,11 +22,16 @@ WORKOUTS = "http://www.mapmywalk.com/workouts/dashboard.json?month=%s&year=%s"
 
 USERNAME = os.getenv('FITNESS_PAL_USERNAME')
 PASSWORD = os.getenv('FITNESS_PAL_PASSWORD')
+GOOGLE_CHROME_BIN = os.getenv('GOOGLE_CHROME_BIN')
+CHROMEDRIVER_PATH = os.getenv('CHROMEDRIVER_PATH')
 
 chrome_options = Options()
+chrome_options.binary_location = GOOGLE_CHROME_BIN
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument("--headless")
 
-driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
 
 
 @newrelic.agent.function_trace()
@@ -80,9 +85,12 @@ def job():
 
 
 if __name__ == '__main__':
-
+    '''
     schedule.every().day.at("23:30").do(job)
 
     while True:
         schedule.run_pending()
         time.sleep(1)
+    '''
+    send_workout_data()
+    send_intake_data()
