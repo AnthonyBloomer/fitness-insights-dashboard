@@ -14,19 +14,6 @@ import myfitnesspal
 import schedule
 import time
 
-LOGIN_URL = "https://www.mapmywalk.com/auth/login/"
-WORKOUTS = "http://www.mapmywalk.com/workouts/dashboard.json?month=%s&year=%s"
-
-USERNAME = os.getenv('FITNESS_PAL_USERNAME')
-PASSWORD = os.getenv('FITNESS_PAL_PASSWORD')
-
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
-
-driver = webdriver.Chrome(options=chrome_options)
-
 
 @newrelic.agent.function_trace()
 def login():
@@ -59,7 +46,7 @@ def send_workout_data():
     workout_data = get_workout_data()
     if workout_data is not None:
         for w in workout_data:
-            newrelic.agent.record_custom_event('WorkoutData', w, application)
+            newrelic.agent.record_custom_event('Workout', w, application)
 
 
 @newrelic.agent.function_trace()
@@ -68,10 +55,8 @@ def send_intake_data():
     day = client.get_date(datetime.datetime.now())
     application = newrelic.agent.application()
     totals = day.totals
-    totals.update({
-        'water': day.water
-    })
-    newrelic.agent.record_custom_event('MealData', totals, application)
+    totals.update({'water': day.water})
+    newrelic.agent.record_custom_event('Meal', totals, application)
 
 
 @newrelic.agent.background_task()
@@ -81,6 +66,19 @@ def job():
 
 
 if __name__ == '__main__':
+    LOGIN_URL = "https://www.mapmywalk.com/auth/login/"
+    WORKOUTS = "http://www.mapmywalk.com/workouts/dashboard.json?month=%s&year=%s"
+
+    USERNAME = os.getenv('FITNESS_PAL_USERNAME')
+    PASSWORD = os.getenv('FITNESS_PAL_PASSWORD')
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+
+    driver = webdriver.Chrome(options=chrome_options)
+
     '''
     schedule.every().day.at("23:30").do(job)
 
@@ -88,5 +86,6 @@ if __name__ == '__main__':
         schedule.run_pending()
         time.sleep(1)
     '''
+
     send_workout_data()
     send_intake_data()
