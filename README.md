@@ -61,19 +61,19 @@ This tool creates two custom events, `Meal` and `Workout`, which you can query u
 
 Get your average calorie intake since 1 week ago:
 
-```
+``` sql
 SELECT average(calories) FROM Meal SINCE 1 week AGO TIMESERIES 1 day 
 ```
 
 Get the total number of steps walked since 1 week ago:
 
-```
+``` sql
 SELECT sum(steps) FROM Workout SINCE 1 week AGO TIMESERIES 1 day 
 ```
 
 Get the total amount of water consumed:
 
-```
+``` sql
 SELECT sum(water) FROM Workout SINCE 1 week AGO TIMESERIES 1 day 
 ```
 
