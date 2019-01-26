@@ -41,7 +41,8 @@ def login():
 @newrelic.agent.function_trace()
 def get_workout_data():
     d = login()
-    d.get(WORKOUTS)
+    today = datetime.datetime.today()
+    d.get(WORKOUTS % (today.month, today.year))
     pre = d.find_element_by_tag_name("pre").text
     data = json.loads(pre)
     wd = data['workout_data']['workouts']
