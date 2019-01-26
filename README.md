@@ -4,20 +4,20 @@ I have started to track my daily intake and exercise using MyFitnessPal and othe
 
 ## Installation
 
-This project uses [python-myfitnesspal](https://github.com/coddingtonbear/python-myfitnesspal) to pull data from MyFitnessPal. You'll need to export your username and password as environment variables:
+This project uses [python-myfitnesspal](https://github.com/coddingtonbear/python-myfitnesspal) to pull data from MyFitnessPal. To authenticate, you'll need to export your username and password as environment variables:
 
 ``` shell
 export FITNESS_PAL_USERNAME='YOUR_USERNAME'
 export FITNESS_PAL_PASSWORD='YOUR_PASSWORD'
 ```
 
-I'm using Selenium and the ChromeDriver to automate data retrieval from the MapMyWalk website. You will need to have Chrome installed and the chromedriver. If you are using macOS, you can install ChromeDriver using Homebrew:
+I'm using Selenium and the ChromeDriver to automate data retrieval from the MapMyWalk website. You will need to have Google Chrome and [ChromeDriver](http://chromedriver.chromium.org) installed. If you are using macOS, you can install ChromeDriver using Homebrew:
 
 ``` shell
 brew cask install chromedriver
 ```
 
-To send metrics to New Relic Insights, you'll also need to export your application name and license key:
+To send metrics to New Relic Insights, you will also need to export your application name and license key:
 
 ``` shell
 export NEW_RELIC_LICENSE_KEY='YOUR_LICENSE_KEY'
@@ -38,7 +38,7 @@ Finally, launch the worker:
 python fitnesspal.py
 ```
 
-The program uses [schedule](https://pypi.org/project/schedule/) to send metrics once a day at 23:00pm.
+The program uses [schedule](https://pypi.org/project/schedule/) to send metrics once a day at 23:30pm.
 
 ### Deploying to Heroku
 
