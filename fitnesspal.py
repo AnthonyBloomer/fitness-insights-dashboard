@@ -21,6 +21,7 @@ USERNAME = os.getenv('FITNESS_PAL_USERNAME')
 PASSWORD = os.getenv('FITNESS_PAL_PASSWORD')
 
 chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 
@@ -39,9 +40,10 @@ def login():
 @newrelic.agent.function_trace()
 def get_workout_data():
     d = login()
-    time.sleep(20)
+    time.sleep(3)
     today = datetime.date.today()
     d.get(WORKOUTS % (today.month, today.year))
+    time.sleep(3)
     pre = d.find_element_by_tag_name("pre").text
     data = json.loads(pre)
     wd = data['workout_data']['workouts']
