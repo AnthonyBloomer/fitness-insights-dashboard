@@ -10,7 +10,6 @@ from selenium.webdriver.chrome.options import Options
 import os
 import json
 import datetime
-
 import myfitnesspal
 
 import schedule
