@@ -4,7 +4,7 @@ I have started to track my daily intake and exercise using MyFitnessPal and othe
 
 ## Installation
 
-This project uses [python-myfitnesspal](https://github.com/coddingtonbear/python-myfitnesspal) to pull data from MyFitnessPal. To authenticate, you'll need to export your username and password as environment variables:
+This project uses [python-myfitnesspal](https://github.com/coddingtonbear/python-myfitnesspal) to programatically interact with and analyze the information I have entered into MyFitnessPal. To authenticate, you'll need to export your username and password as environment variables:
 
 ``` shell
 export FITNESS_PAL_USERNAME='YOUR_USERNAME'
