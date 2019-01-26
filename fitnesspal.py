@@ -79,13 +79,8 @@ if __name__ == '__main__':
 
     driver = webdriver.Chrome(options=chrome_options)
 
-    '''
     schedule.every().day.at("23:30").do(job)
 
     while True:
         schedule.run_pending()
         time.sleep(1)
-    '''
-
-    send_workout_data()
-    send_intake_data()
