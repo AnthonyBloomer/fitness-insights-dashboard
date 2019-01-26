@@ -1,6 +1,6 @@
 # Fitness Insights Dashboard
 
-I have started to track my daily intake and exercise using MyFitnessPal and other mobile apps. This project pulls data from those sources and sends to New Relic Insights. This allows me to create visualisations and query my fitness and intake data using NRQL.
+I have started to track my daily intake and exercise using [MyFitnessPal](https://www.myfitnesspal.com/) and other mobile apps. This project pulls data from those sources and sends to [New Relic Insights](https://newrelic.com/products/insights). This allows me to create visualisations and query my fitness and food intake data using [NRQL](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-reference/nrql-syntax-components-functions).
 
 ## Installation
 
