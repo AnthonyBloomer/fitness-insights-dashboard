@@ -14,6 +14,8 @@ import myfitnesspal
 import schedule
 import time
 
+import logging
+
 
 @newrelic.agent.function_trace()
 def login():
@@ -26,6 +28,7 @@ def login():
 
 @newrelic.agent.function_trace()
 def get_workout_data():
+    logger.info("Logging into MapMyWalk")
     d = login()
     time.sleep(3)
     today = datetime.date.today()
@@ -33,8 +36,10 @@ def get_workout_data():
     time.sleep(3)
     pre = d.find_element_by_tag_name("pre").text
     data = json.loads(pre)
+    logger.info("JSON response: %s" % data)
     wd = data['workout_data']['workouts']
-    if today not in wd:
+    if str(today) not in wd:
+        logger.info("No workouts found for today.")
         return None
     else:
         return wd[today]
@@ -42,10 +47,10 @@ def get_workout_data():
 
 @newrelic.agent.function_trace()
 def send_workout_data():
-    application = newrelic.agent.application()
     workout_data = get_workout_data()
     if workout_data is not None:
         for w in workout_data:
+            logger.info(w)
             newrelic.agent.record_custom_event('Workout', w, application)
 
 
@@ -53,7 +58,6 @@ def send_workout_data():
 def send_intake_data():
     client = myfitnesspal.Client(USERNAME, PASSWORD)
     day = client.get_date(datetime.datetime.now())
-    application = newrelic.agent.application()
     totals = day.totals
     totals.update({'water': day.water})
     newrelic.agent.record_custom_event('Meal', totals, application)
@@ -61,11 +65,16 @@ def send_intake_data():
 
 @newrelic.agent.background_task()
 def job():
+    logger.info("Sending intake data.")
     send_intake_data()
+    logger.info("Sending workout data.")
     send_workout_data()
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+
     LOGIN_URL = "https://www.mapmywalk.com/auth/login/"
     WORKOUTS = "http://www.mapmywalk.com/workouts/dashboard.json?month=%s&year=%s"
 
@@ -78,6 +87,8 @@ if __name__ == '__main__':
     chrome_options.add_argument('--disable-dev-shm-usage')
 
     driver = webdriver.Chrome(options=chrome_options)
+
+    application = newrelic.agent.application()
 
     schedule.every().day.at("23:30").do(job)
 
