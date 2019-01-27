@@ -19,6 +19,7 @@ import logging
 
 @newrelic.agent.function_trace()
 def login():
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(LOGIN_URL)
     driver.find_element_by_id('email').send_keys(USERNAME)
     driver.find_element_by_id('password').send_keys(PASSWORD)
@@ -38,6 +39,8 @@ def get_workout_data():
     data = json.loads(pre)
     logger.info("JSON response: %s" % data)
     wd = data['workout_data']['workouts']
+    d.close()
+    d.quit()
     if str(today) not in wd:
         logger.info("No workouts found for today.")
         return None
@@ -85,8 +88,6 @@ if __name__ == '__main__':
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-
-    driver = webdriver.Chrome(options=chrome_options)
 
     application = newrelic.agent.application()
 
