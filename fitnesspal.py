@@ -41,7 +41,8 @@ def get_workout_data():
     wd = data['workout_data']['workouts']
     d.close()
     d.quit()
-    if str(today) not in wd:
+    today = str(today)
+    if today not in wd:
         logger.info("No workouts found for today.")
         return None
     else:
