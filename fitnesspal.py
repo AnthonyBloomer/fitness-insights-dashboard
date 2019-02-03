@@ -70,10 +70,13 @@ def send_intake_data():
 
 @newrelic.agent.background_task()
 def job():
-    logger.info("Sending intake data.")
-    send_intake_data()
-    logger.info("Sending workout data.")
-    send_workout_data()
+    try:
+        logger.info("Sending intake data.")
+        send_intake_data()
+        logger.info("Sending workout data.")
+        send_workout_data()
+    except Exception as e:
+        logger.debug(e)
 
 
 if __name__ == '__main__':
