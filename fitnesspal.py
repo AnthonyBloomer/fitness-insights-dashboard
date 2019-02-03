@@ -31,6 +31,7 @@ def login():
 def get_workout_data():
     logger.info("Logging into MapMyWalk")
     d = login()
+    logger.info("Log in successful.")
     time.sleep(3)
     today = datetime.date.today()
     d.get(WORKOUTS % (today.month, today.year))
