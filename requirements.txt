@@ -4,7 +4,7 @@ chardet==3.0.4
 idna==2.8
 keyring==8.7
 keyrings.alt==1.3
-lxml==4.3.0
+lxml==4.9.1
 measurement==2.0.1
 mpmath==1.1.0
 myfitnesspal==1.13.3
